@@ -1,0 +1,18 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+
+name: dataset_exploration
+
+display_name: Data Exploration
+type: command
+inputs:
+  exploration_data:
+    type: uri_file
+outputs:
+  exploration_output:
+    type: uri_folder
+environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu@latest
+code: ./src
+command: >-
+  python data_exploration.py 
+  --exploration_data ${{inputs.exploration_data}} 
+  --exploration_output ${{outputs.exploration_output}}

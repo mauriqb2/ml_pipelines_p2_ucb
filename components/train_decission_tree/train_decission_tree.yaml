@@ -1,0 +1,16 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: train_decission_tree
+display_name: Train Decision Tree Model
+type: command
+inputs:
+  train_data_path:
+    type: uri_file
+outputs:
+  trained_model:
+    type: uri_file
+environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu@latest
+code: ./src
+command: >-
+  python train_decission_tree.py
+  --train_data_path ${{inputs.train_data_path}}
+  --trained_model ${{outputs.trained_model}}

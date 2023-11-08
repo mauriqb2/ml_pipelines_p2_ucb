@@ -1,0 +1,26 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: evaluate_model
+display_name: Evaluate Model Component
+type: command
+inputs:
+  predictions_csv:
+    type: uri_file
+    description: "Path to the CSV file containing the model predictions."
+  true_labels_csv:
+    type: uri_file
+    description: "Path to the CSV file containing the true labels."
+outputs:
+  report_csv:
+    type: uri_file
+    description: "Path where the classification report CSV will be saved as an output."
+  confusion_matrix:
+    type: uri_folder
+    description: "Path where the confusion matrix PNG will be saved as an output."
+environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu@latest
+code: ./src
+command: >-
+  python evaluate_model.py
+  --true_labels_csv ${{inputs.true_labels_csv}}
+  --predictions_csv ${{inputs.predictions_csv}}
+  --report_csv ${{outputs.report_csv}}
+  --confusion_matrix ${{outputs.confusion_matrix}}

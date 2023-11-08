@@ -1,0 +1,18 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+
+name: dataset_clean
+
+display_name: Dataset Clean
+type: command
+inputs:
+  clean_data:
+    type: uri_file
+outputs:
+  cleaned_data:
+    type: uri_file
+environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu@latest
+code: ./src
+command: >-
+  python dataset_clean.py 
+  --clean_data ${{inputs.clean_data}} 
+  --cleaned_data ${{outputs.cleaned_data}}

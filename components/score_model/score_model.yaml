@@ -1,0 +1,22 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: score_model
+display_name: Score Model Component
+type: command
+inputs:
+  model_path:
+    type: uri_file
+    description: "Path to the saved Logistic Regression model."
+  test_data_path:
+    type: uri_file
+    description: "Path to the CSV file containing the test dataset."
+outputs:
+  predictions_csv:
+    type: uri_file
+    description: "Path where the predictions CSV will be saved as an output."
+environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu@latest
+code: ./src
+command: >-
+  python score_model.py
+  --test_data_path ${{inputs.test_data_path}}
+  --model_path ${{inputs.model_path}}
+  --predictions_csv ${{outputs.predictions_csv}}

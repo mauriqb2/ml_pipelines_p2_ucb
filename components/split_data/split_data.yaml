@@ -1,0 +1,30 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: split_data
+display_name: Split Data Job
+type: command
+inputs:
+  data_path:
+    type: uri_file
+  test_size:
+    type: number
+    default: 0.2
+  random_state:
+    type: integer
+    default: 42
+outputs:
+  train_data:
+    type: uri_file
+  test_data:
+    type: uri_file
+  test_labels:
+    type: uri_file
+environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu@latest
+code: ./src
+command: >-
+  python split_data.py
+  --data_path ${{inputs.data_path}}
+  --test_size ${{inputs.test_size}}
+  --random_state ${{inputs.random_state}}
+  --train_data ${{outputs.train_data}}
+  --test_data ${{outputs.test_data}}
+  --test_labels ${{outputs.test_labels}}
